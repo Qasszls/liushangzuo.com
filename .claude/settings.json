@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/root/.claude/plugins/marketplaces/claude-plugins-official/plugins/superpowers/hooks/session-start.sh",
+            "async": false
+          }
+        ]
+      }
+    ]
+  }
+}

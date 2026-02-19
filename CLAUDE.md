@@ -1,0 +1,77 @@
+# 个人网站项目
+
+## 项目概述
+
+Nuxt 3 个人网站，风格定位**简约文艺**。四大模块：随笔（blog）、旅行（travel）、摄影（works）、技术（tech）。
+
+## 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| 框架 | Nuxt 3，部署策略以 SSG（`nuxt generate`）为主 |
+| 样式 | Tailwind CSS v4，`darkMode: 'class'` |
+| 内容 | @nuxt/content（Markdown + MDC 语法） |
+| 图标 | @nuxt/icon，优先使用 Phosphor Icons（`ph:` 前缀） |
+| 色彩模式 | @nuxtjs/color-mode |
+| 状态管理 | Pinia |
+| 语言 | TypeScript strict 模式 |
+| 图片 | @nuxt/image |
+| 测试 | Vitest + @vue/test-utils |
+
+## 目录约定
+
+```
+pages/          # 文件系统路由（Nuxt 自动生成）
+  index.vue
+  blog/
+    index.vue
+    [slug].vue
+  travel/
+  works/
+  tech/
+components/     # 全局自动导入组件
+composables/    # 全局自动导入组合式函数
+content/        # Markdown 内容文件
+  blog/
+  travel/
+  works/
+  tech/
+layouts/        # 布局组件（default、blog、fullscreen）
+assets/         # 静态资源（字体、全局 CSS）
+public/         # 公共文件（图片等）
+```
+
+## 测试策略
+
+**组件测试是首选测试类型**，单元测试仅用于独立的 composable 和工具函数。
+
+实现任何 Vue 组件或前端功能时，使用 **`vue-component-tdd`** skill（而非通用的 `test-driven-development`）。
+
+测试命令：
+```bash
+npx vitest run                          # 全量
+npx vitest run src/components/Foo.spec.ts  # 单文件
+```
+
+## 设计原则
+
+- **留白**：正文最大宽度 720-800px，媒体页面 1200-1400px，页面边距桌面端 64-96px
+- **字体**：标题用 Noto Serif SC（衬线），正文用系统字体栈
+- **色彩**：以 Stone/Slate 灰阶为主，强调色取莫兰迪低饱和度色（1-2 种）
+- **背景**：不用纯白，用 `#FAFAF9` 或 `bg-stone-50`
+- **暗黑模式**：每个颜色类都配 `dark:` 变体
+
+## 内容 Front Matter 规范
+
+所有内容文件统一字段：
+
+```yaml
+title: ""
+description: ""       # SEO 描述与列表摘要
+date: "YYYY-MM-DD"
+updated: "YYYY-MM-DD" # 可选
+tags: []
+cover: ""             # 相对于 public/ 的路径
+draft: false
+featured: false
+```
