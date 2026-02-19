@@ -1,12 +1,17 @@
-# Git worktrees
-.worktrees/
-
-# Node
-node_modules/
-.nuxt/
-.output/
-dist/
-
-# Misc
+node_modules
+*.log*
+.nuxt
+.nitro
+.cache
+.output
+.env
+dist
 .DS_Store
-*.local
+.data
+
+# Yarn
+.yarn/cache
+.yarn/*state*
+
+# Local History
+.history
