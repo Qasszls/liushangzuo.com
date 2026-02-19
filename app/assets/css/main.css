@@ -1,1 +1,125 @@
+/* app/assets/css/main.css */
 @import "tailwindcss";
+
+/* === Design Tokens via @theme === */
+@theme {
+  /* Font families */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, 'Noto Sans', sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: 'Noto Serif SC', 'Source Han Serif CN', 'STSong', 'SimSun', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Monaco, Consolas, monospace;
+
+  /* Accent color palette — references CSS variables set by useTheme */
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+  --color-accent-950: var(--accent-950);
+}
+
+/* === Accent color presets (default: Mist Blue) === */
+:root {
+  --accent-50: #f0f5f8;
+  --accent-100: #dce7ef;
+  --accent-200: #bdd2e1;
+  --accent-300: #92b6cd;
+  --accent-400: #7c9cb5;
+  --accent-500: #5a7a93;
+  --accent-600: #4a657c;
+  --accent-700: #3e5366;
+  --accent-800: #374856;
+  --accent-900: #313d49;
+  --accent-950: #202830;
+
+  --font-title: 'Noto Serif SC', serif;
+}
+
+/* Bean Green preset */
+:root[data-accent="bean-green"] {
+  --accent-50: #f2f5f3;
+  --accent-100: #e0e8e2;
+  --accent-200: #c3d3c7;
+  --accent-300: #9bb6a2;
+  --accent-400: #8fa395;
+  --accent-500: #6b826f;
+  --accent-600: #556958;
+  --accent-700: #455548;
+  --accent-800: #3a463c;
+  --accent-900: #313b33;
+  --accent-950: #1a201b;
+}
+
+/* Lotus Pink preset */
+:root[data-accent="lotus-pink"] {
+  --accent-50: #f7f4f3;
+  --accent-100: #ede7e4;
+  --accent-200: #ddd2cc;
+  --accent-300: #c8b8af;
+  --accent-400: #b8a9a1;
+  --accent-500: #9a8b83;
+  --accent-600: #82736b;
+  --accent-700: #6b5e58;
+  --accent-800: #5a504b;
+  --accent-900: #4e4541;
+  --accent-950: #292422;
+}
+
+/* Desert Camel preset */
+:root[data-accent="desert-camel"] {
+  --accent-50: #f6f4f2;
+  --accent-100: #ebe7e2;
+  --accent-200: #d8d1c7;
+  --accent-300: #c0b5a6;
+  --accent-400: #a89f91;
+  --accent-500: #8a8173;
+  --accent-600: #746b5f;
+  --accent-700: #5f584e;
+  --accent-800: #514b43;
+  --accent-900: #46413b;
+  --accent-950: #25221f;
+}
+
+/* === Font title presets === */
+:root[data-font="lxgw-wenkai"] {
+  --font-title: 'LXGW WenKai', cursive;
+}
+:root[data-font="system"] {
+  --font-title: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* === Global styles === */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+/* Page transitions */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.2s ease;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+}
+
+/* Prose overrides for article content */
+.prose {
+  --tw-prose-body: theme(--color-stone-700);
+  --tw-prose-headings: theme(--color-stone-900);
+  line-height: 1.8;
+}
+.dark .prose {
+  --tw-prose-body: theme(--color-stone-300);
+  --tw-prose-headings: theme(--color-stone-100);
+}
