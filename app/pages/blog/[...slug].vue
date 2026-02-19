@@ -64,23 +64,6 @@
         </NuxtLink>
       </footer>
     </article>
-
-    <!-- TOC in sidebar slot -->
-    <template #sidebar>
-      <nav v-if="article?.body?.toc?.links?.length" class="sticky top-24">
-        <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
-        <ul class="space-y-2 text-sm">
-          <li v-for="link in article.body.toc.links" :key="link.id">
-            <a
-              :href="`#${link.id}`"
-              class="text-stone-500 hover:text-accent-500 transition-colors"
-            >
-              {{ link.text }}
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </template>
   </div>
 </template>
 
