@@ -21,3 +21,6 @@ vi.stubGlobal('NuxtLink', {
   template: '<a :href="to"><slot /></a>',
   props: ['to'],
 })
+
+// Stub useColorMode globally for components that use it via Nuxt auto-import
+vi.stubGlobal('useColorMode', vi.fn(() => ({ preference: 'light', value: 'light' })))
