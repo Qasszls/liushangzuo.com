@@ -61,6 +61,18 @@ npx vitest run src/components/Foo.spec.ts  # 单文件
 - **背景**：不用纯白，用 `#FAFAF9` 或 `bg-stone-50`
 - **暗黑模式**：每个颜色类都配 `dark:` 变体
 
+## 开发完成收尾规范
+
+**所有功能实现完成后，必须自动执行以下步骤，无需等待用户提醒：**
+
+1. 确认所有测试通过
+2. 将 feature 分支推送到 GitHub
+3. 自动创建 Pull Request（使用 `gh pr create`）
+4. 把 PR 链接发给用户，等待 review 和合并
+5. 清理 worktree（如有）
+
+> 禁止直接 merge 到 main。所有改动必须经过 PR，由用户审核后自行合并。
+
 ## 内容 Front Matter 规范
 
 所有内容文件统一字段：
