@@ -166,10 +166,12 @@ const { data: featuredPhotos } = await useAsyncData('home-photos', () =>
     .all()
 )
 
+const { site } = useAppConfig()
+
 useHead({
-  title: '柳尚佐 — 记录生活，分享思考',
+  title: site.title,
   meta: [
-    { name: 'description', content: '柳尚佐的个人空间，记录技术、旅行与摄影的思考与见闻' },
+    { name: 'description', content: site.description },
   ],
 })
 </script>
