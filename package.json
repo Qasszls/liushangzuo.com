@@ -12,7 +12,8 @@
     "preview": "nuxi preview",
     "lint": "eslint .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "generate:blur": "npx tsx scripts/generate-blur.ts"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.34",
@@ -37,6 +38,8 @@
     "@vue/test-utils": "^2.4.6",
     "eslint": "^9.24.0",
     "happy-dom": "^20.6.3",
+    "sharp": "^0.34.5",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.3",
     "vitest": "^4.0.18"
   },
@@ -46,6 +49,7 @@
       "@parcel/watcher",
       "better-sqlite3",
       "esbuild",
+      "sharp",
       "vue-demi"
     ]
   }
