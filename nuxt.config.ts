@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
+    'nuxt-studio',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -26,7 +27,22 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  nitro: {
+    prerender: {
+      crawlLinks: true,
+    },
+  },
+
   content: {},
+
+  studio: {
+    repository: {
+      provider: 'github',
+      owner: 'Qasszls',
+      repo: 'liushangzuo.com',
+      branch: 'main',
+    },
+  },
 
   image: {
     quality: 80,
