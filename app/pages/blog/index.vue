@@ -31,7 +31,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <ArticleCard
         v-for="post in visiblePosts"
-        :key="post._path"
+        :key="post.path"
         :post="post"
       />
     </div>

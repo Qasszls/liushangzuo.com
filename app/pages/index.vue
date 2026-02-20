@@ -1,32 +1,62 @@
 <template>
   <div>
     <!-- Hero -->
-    <section class="min-h-[80vh] flex items-center justify-center relative overflow-hidden">
-      <div class="absolute inset-0 bg-gradient-to-br from-stone-100 via-stone-50 to-accent-50/30 dark:from-stone-950 dark:via-stone-900 dark:to-accent-950/20" />
-      <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
-        <h1
-          class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight tracking-tight"
-          style="font-family: var(--font-title)"
-        >
-          记录生活，<br />
-          <span class="text-stone-500 dark:text-stone-400">分享思考</span>
-        </h1>
-        <p class="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-10 max-w-xl mx-auto leading-relaxed">
-          一个关于技术、旅行与摄影的个人空间。用文字沉淀思想，用镜头捕捉瞬间。
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <NuxtLink
-            to="/blog"
-            class="px-8 py-4 bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 rounded-full font-medium hover:scale-105 transition-transform"
+    <section class="relative h-[65vh] min-h-[480px] overflow-hidden">
+      <!-- Background image (conditional) -->
+      <template v-if="heroImage">
+        <!-- Blur placeholder -->
+        <div
+          class="absolute inset-0 bg-cover bg-center scale-110 blur-[20px]"
+          :style="{ backgroundImage: `url('${heroImageBlur}')` }"
+          aria-hidden="true"
+        />
+        <!-- Full image — fades in on top of blur -->
+        <img
+          :src="heroImage"
+          alt=""
+          class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+          :class="heroLoaded ? 'opacity-100' : 'opacity-0'"
+          @load="heroLoaded = true"
+        />
+      </template>
+
+      <!-- Gradient overlay (always present — provides dark base when no image) -->
+      <div
+        class="absolute inset-0"
+        :class="heroImage
+          ? 'bg-gradient-to-t from-stone-950/80 via-stone-950/25 to-transparent'
+          : 'bg-gradient-to-br from-stone-800 via-stone-900 to-stone-950 dark:from-stone-900 dark:via-stone-950 dark:to-black'"
+      />
+
+      <!-- Content -->
+      <div class="relative z-10 h-full flex flex-col justify-end pb-14 md:pb-20">
+        <div class="max-w-7xl mx-auto w-full px-6 md:px-12">
+          <p class="text-white/50 text-sm tracking-[0.3em] uppercase mb-4 font-light">
+            文字 · 镜头 · 旅途
+          </p>
+          <h1
+            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-[1.15]"
+            style="font-family: var(--font-title)"
           >
-            阅读随笔
-          </NuxtLink>
-          <NuxtLink
-            to="/works"
-            class="px-8 py-4 border border-stone-300 dark:border-stone-700 rounded-full font-medium hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-          >
-            浏览作品
-          </NuxtLink>
+            记录生活，<br />分享思考
+          </h1>
+          <p class="text-white/60 text-base md:text-lg max-w-md leading-relaxed mb-8">
+            用文字沉淀思想，用镜头捕捉瞬间。
+          </p>
+          <div class="flex gap-3">
+            <NuxtLink
+              to="/blog"
+              class="px-6 py-2.5 bg-white/90 text-stone-900 text-sm font-medium rounded-full hover:bg-white transition-colors"
+            >
+              阅读随笔
+            </NuxtLink>
+            <NuxtLink
+              to="/works"
+              class="px-6 py-2.5 text-white/80 text-sm font-medium rounded-full border border-white/25 hover:bg-white/10 hover:border-white/40 transition-all"
+            >
+              浏览作品
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </section>
@@ -48,7 +78,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <ArticleCard
             v-for="post in latestPosts"
-            :key="post._path"
+            :key="post.path"
             :post="post"
           />
         </div>
@@ -72,7 +102,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <NuxtLink
             v-for="photo in featuredPhotos"
-            :key="photo._path"
+            :key="photo.path"
             to="/works"
             class="group relative aspect-[4/3] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800"
           >
@@ -113,6 +143,13 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
+// Hero background image — set to '' or null to hide the image (layout stays the same)
+const heroImage = '/images/blog/beijing-autumn-gugong-cover.jpg'
+const heroImageBlur = '/images/blog/beijing-autumn-gugong-cover-blur.jpg'
+const heroLoaded = ref(false)
+
 const { data: latestPosts } = await useAsyncData('home-posts', () =>
   queryCollection('blog')
     .where('draft', '=', false)

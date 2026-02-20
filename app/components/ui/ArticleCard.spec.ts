@@ -8,7 +8,7 @@ const stubs = {
 }
 
 const post = {
-  _path: '/blog/hello-world',
+  path: '/blog/hello-world',
   title: '你好，世界',
   description: '第一篇随笔',
   date: '2026-02-19',

@@ -1,6 +1,6 @@
 <template>
   <article class="group">
-    <NuxtLink :to="post._path" class="block">
+    <NuxtLink :to="post.path" class="block">
       <div
         v-if="post.cover"
         class="aspect-[16/10] overflow-hidden rounded-xl mb-5 bg-stone-100 dark:bg-stone-800"
@@ -44,7 +44,7 @@
 <script setup lang="ts">
 defineProps<{
   post: {
-    _path: string
+    path: string
     title: string
     description?: string
     date: string

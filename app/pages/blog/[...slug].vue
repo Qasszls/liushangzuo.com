@@ -30,10 +30,10 @@
 
       <!-- Cover Image -->
       <div v-if="article.cover" class="mb-10 -mx-6 md:mx-0">
-        <NuxtImg
+        <BlurImage
           :src="article.cover"
           :alt="article.title"
-          class="w-full aspect-[16/9] object-cover rounded-xl"
+          class="w-full aspect-[16/9] rounded-xl"
         />
       </div>
 
@@ -49,7 +49,7 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <ArticleCard
               v-for="post in relatedPosts"
-              :key="post._path"
+              :key="post.path"
               :post="post"
             />
           </div>
@@ -91,7 +91,7 @@ const { data: relatedPosts } = await useAsyncData(`related-${slug}`, async () =>
     .order('date', 'DESC')
     .all()
   return posts
-    .filter((p: any) => p._path !== article.value!._path && p.tags?.includes(firstTag))
+    .filter((p: any) => p.path !== article.value!.path && p.tags?.includes(firstTag))
     .slice(0, 2)
 })
 
