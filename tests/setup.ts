@@ -24,3 +24,17 @@ vi.stubGlobal('NuxtLink', {
 
 // Stub useColorMode globally for components that use it via Nuxt auto-import
 vi.stubGlobal('useColorMode', vi.fn(() => ({ preference: 'light', value: 'light' })))
+
+// Stub useAppConfig globally for components that use it via Nuxt auto-import
+vi.stubGlobal('useAppConfig', vi.fn(() => ({
+  site: {
+    name: '柳尚佐',
+    title: '柳尚佐 — 记录生活，分享思考',
+    description: '柳尚佐的个人空间',
+    socialLinks: [
+      { href: 'https://github.com/Qasszls', icon: 'ph:github-logo', label: 'GitHub' },
+      { href: 'mailto:1561790480@qq.com', icon: 'ph:envelope', label: 'Email' },
+      { icon: 'ph:wechat-logo', label: '微信：Zlsqass006', wechat: 'Zlsqass006' },
+    ],
+  },
+})))

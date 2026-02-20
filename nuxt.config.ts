@@ -13,7 +13,6 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/icon',
     '@nuxtjs/color-mode',
-    '@nuxtjs/google-fonts',
     '@pinia/nuxt',
   ],
 
@@ -25,15 +24,6 @@ export default defineNuxtConfig({
 
   colorMode: {
     classSuffix: '',
-  },
-
-  googleFonts: {
-    families: {
-      'Noto Serif SC': [400, 600, 700],
-      'LXGW WenKai': [400, 700],
-    },
-    display: 'swap',
-    download: true,
   },
 
   content: {},

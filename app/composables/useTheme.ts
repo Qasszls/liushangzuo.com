@@ -34,6 +34,18 @@ function loadSaved(key: string, validValues: string[], fallback: string): string
   return saved && validValues.includes(saved) ? saved : fallback
 }
 
+const LXGW_FONTS_LINK_ID = 'lxgw-wenkai-fonts'
+
+function ensureLxgwFontsLoaded() {
+  if (typeof document === 'undefined') return
+  if (document.getElementById(LXGW_FONTS_LINK_ID)) return
+  const link = document.createElement('link')
+  link.id = LXGW_FONTS_LINK_ID
+  link.rel = 'stylesheet'
+  link.href = 'https://fonts.googleapis.com/css2?family=LXGW+WenKai:wght@400;700&display=swap'
+  document.head.appendChild(link)
+}
+
 export function useTheme() {
   const accentColor = ref(loadSaved('accent-color', ACCENT_IDS, 'mist-blue'))
   const titleFont = ref(loadSaved('title-font', FONT_IDS, 'noto-serif'))
@@ -50,6 +62,9 @@ export function useTheme() {
 
   function applyFont(id: string) {
     if (typeof document !== 'undefined') {
+      if (id === 'lxgw-wenkai') {
+        ensureLxgwFontsLoaded()
+      }
       if (id === 'noto-serif') {
         delete document.documentElement.dataset.font
       } else {

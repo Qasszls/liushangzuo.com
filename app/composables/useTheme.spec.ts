@@ -16,8 +16,14 @@ const htmlElement = {
   dataset: {} as Record<string, string>,
   style: { setProperty: vi.fn() },
 }
+const headMock = { appendChild: vi.fn() }
 Object.defineProperty(globalThis, 'document', {
-  value: { documentElement: htmlElement },
+  value: {
+    documentElement: htmlElement,
+    getElementById: vi.fn(() => null),
+    createElement: vi.fn(() => ({ id: '', rel: '', href: '' })),
+    head: headMock,
+  },
   writable: true,
 })
 
