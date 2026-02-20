@@ -167,9 +167,9 @@ const { data: featuredPhotos } = await useAsyncData('home-photos', () =>
 )
 
 useHead({
-  title: 'Your Name — 记录生活，分享思考',
+  title: '柳尚佐 — 记录生活，分享思考',
   meta: [
-    { name: 'description', content: '一个关于技术、旅行与摄影的个人空间' },
+    { name: 'description', content: '柳尚佐的个人空间，记录技术、旅行与摄影的思考与见闻' },
   ],
 })
 </script>
