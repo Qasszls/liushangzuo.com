@@ -76,11 +76,10 @@
             to="/works"
             class="group relative aspect-[4/3] overflow-hidden rounded-xl bg-stone-200 dark:bg-stone-800"
           >
-            <NuxtImg
+            <BlurImage
               :src="photo.image"
               :alt="photo.title"
-              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              loading="lazy"
+              class="w-full h-full"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
               <span class="text-white font-medium">{{ photo.title }}</span>

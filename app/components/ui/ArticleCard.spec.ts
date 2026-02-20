@@ -4,7 +4,7 @@ import ArticleCard from './ArticleCard.vue'
 
 const stubs = {
   NuxtLink: { template: '<a :href="to"><slot /></a>', props: ['to'] },
-  NuxtImg: { template: '<img :src="src" :alt="alt" />', props: ['src', 'alt'] },
+  BlurImage: { template: '<img :src="src" :alt="alt" />', props: ['src', 'alt'] },
 }
 
 const post = {

@@ -5,11 +5,10 @@
         v-if="post.cover"
         class="aspect-[16/10] overflow-hidden rounded-xl mb-5 bg-stone-100 dark:bg-stone-800"
       >
-        <NuxtImg
+        <BlurImage
           :src="post.cover"
           :alt="post.title"
-          class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+          class="w-full h-full"
         />
       </div>
 

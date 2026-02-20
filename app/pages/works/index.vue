@@ -35,12 +35,10 @@
         class="break-inside-avoid group relative overflow-hidden rounded-xl cursor-pointer"
         @click="openLightbox(idx)"
       >
-        <NuxtImg
+        <BlurImage
           :src="photo.image"
           :alt="photo.title"
-          class="w-full transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-          sizes="sm:100vw md:50vw lg:33vw"
+          class="w-full"
         />
 
         <!-- Hover Overlay -->
