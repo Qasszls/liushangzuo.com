@@ -7,10 +7,14 @@ const stubs = {
   Icon: { template: '<span />', props: ['name'] },
 }
 
+vi.mock('#app', () => ({
+  useAppConfig: () => ({ site: { name: '柳尚佐' } }),
+}))
+
 describe('AppHeader', () => {
   it('renders site name', () => {
     const wrapper = mount(AppHeader, { global: { stubs } })
-    expect(wrapper.text()).toContain('Your Name')
+    expect(wrapper.text()).toContain('柳尚佐')
   })
 
   it('renders navigation links', () => {
