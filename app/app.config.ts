@@ -2,6 +2,7 @@ export default defineAppConfig({
   // 站点基本信息
   site: {
     name: '柳尚佐',
+    email: '1561790480@qq.com',
     title: '柳尚佐 — 记录生活，分享思考',
     description: '柳尚佐的个人空间，记录技术、旅行与摄影的思考与见闻',
     socialLinks: [
