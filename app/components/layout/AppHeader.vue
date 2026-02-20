@@ -9,7 +9,7 @@
   >
     <nav class="max-w-7xl mx-auto px-6 md:px-12 h-16 flex items-center justify-between">
       <NuxtLink to="/" class="text-xl font-bold tracking-tight" style="font-family: var(--font-title)">
-        Your Name
+        {{ site.name }}
       </NuxtLink>
 
       <!-- Desktop nav -->
@@ -75,6 +75,8 @@ import { ref } from 'vue'
 
 defineProps<{ scrolled?: boolean }>()
 defineEmits<{ 'open-settings': [] }>()
+
+const { site } = useAppConfig()
 
 const isMobileMenuOpen = ref(false)
 
