@@ -13,8 +13,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     '@nuxt/icon',
     '@nuxtjs/color-mode',
-    '@nuxtjs/google-fonts',
     '@pinia/nuxt',
+    'nuxt-studio',
   ],
 
   css: ['~/assets/css/main.css'],
@@ -27,16 +27,22 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
-  googleFonts: {
-    families: {
-      'Noto Serif SC': [400, 600, 700],
-      'LXGW WenKai': [400, 700],
+  nitro: {
+    prerender: {
+      crawlLinks: true,
     },
-    display: 'swap',
-    download: true,
   },
 
   content: {},
+
+  studio: {
+    repository: {
+      provider: 'github',
+      owner: 'Qasszls',
+      repo: 'liushangzuo.com',
+      branch: 'main',
+    },
+  },
 
   image: {
     quality: 80,
