@@ -6,6 +6,7 @@
     </main>
     <AppFooter />
     <SettingsDrawer v-model="isSettingsOpen" />
+    <StudioHomeButton />
   </div>
 </template>
 
