@@ -130,12 +130,4 @@ body {
   body[data-studio-active][data-expand-sidebar] {
     margin-left: 0 !important;
   }
-
-  body[data-studio-active] nuxt-studio {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    z-index: 9999 !important;
-  }
 }

@@ -3,7 +3,7 @@
     <button
       v-if="isStudioActive"
       class="
-        fixed bottom-6 right-6 z-[9990]
+        fixed bottom-6 right-6 z-[10000]
         w-11 h-11 rounded-full
         flex items-center justify-center
         bg-white/80 dark:bg-stone-900/80
