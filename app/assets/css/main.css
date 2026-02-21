@@ -138,4 +138,9 @@ body {
     height: 100vh !important;
     z-index: 9999 !important;
   }
+
+  /* Keep header and home button above the Studio editor overlay */
+  body[data-studio-active] header {
+    z-index: 10000 !important;
+  }
 }
