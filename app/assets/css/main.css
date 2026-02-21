@@ -131,7 +131,7 @@ body {
     margin-left: 0 !important;
   }
 
-  nuxt-studio {
+  body[data-studio-active] nuxt-studio {
     position: fixed !important;
     inset: 0 !important;
     width: 100vw !important;
