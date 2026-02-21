@@ -124,3 +124,18 @@ body {
   --tw-prose-body: theme(--color-stone-300);
   --tw-prose-headings: theme(--color-stone-100);
 }
+
+/* === Mobile Studio editor overrides === */
+@media (max-width: 768px) {
+  body[data-studio-active][data-expand-sidebar] {
+    margin-left: 0 !important;
+  }
+
+  nuxt-studio {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    z-index: 9999 !important;
+  }
+}
