@@ -11,7 +11,7 @@
     </div>
     <AppFooter />
     <SettingsDrawer v-model="isSettingsOpen" />
-    <StudioHomeButton />
+    <HomeButton />
   </div>
 </template>
 
