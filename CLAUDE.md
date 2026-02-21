@@ -73,12 +73,17 @@ npx vitest run src/components/Foo.spec.ts  # 单文件
 
 > 禁止直接 merge 到 main。所有改动必须经过 PR，由用户审核后自行合并。
 
+## 交互规范
+
+- **有选项供用户选择时，必须使用 `AskUserQuestion` 工具**，不能只在文字里列出选项
+- **选项中尽量标注一个推荐项**，在 label 末尾加 `（推荐）`
+
 ## Skill 检查规范
 
 **每次回复前，必须先检查以下 skill 是否适用并调用，简单任务不是跳过的理由：**
 
 1. `using-superpowers` — 任何任务前必须检查，确认是否有更具体的适配 skill
-2. `frontend-design` — 涉及前端界面、组件、页面设计时
+2. `frontend-design` — 涉及前端界面、组件、页面设计时（**包括需求澄清和方案设计阶段**，不只是写代码时）
 3. Vue 技巧系列（任意 `.vue` 文件修改或 Vue 相关任务时）：
    - `vue-best-practices`
    - `vue`
