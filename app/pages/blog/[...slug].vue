@@ -37,6 +37,24 @@
         />
       </div>
 
+      <!-- Mobile TOC -->
+      <div v-if="tocLinks.length" class="lg:hidden mb-8 border border-stone-200 dark:border-stone-800 rounded-lg overflow-hidden">
+        <button
+          class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 bg-stone-50 dark:bg-stone-900"
+          @click="mobileOpen = !mobileOpen"
+        >
+          <span>目录</span>
+          <Icon :name="mobileOpen ? 'ph:caret-up' : 'ph:caret-down'" class="w-4 h-4" />
+        </button>
+        <Transition name="toc-mobile">
+          <div v-show="mobileOpen" class="overflow-hidden" @click="mobileOpen = false">
+            <div class="px-4 py-3">
+              <BlogToc :links="tocLinks" :active-id="activeId" />
+            </div>
+          </div>
+        </Transition>
+      </div>
+
       <!-- Content -->
       <div class="prose prose-lg dark:prose-invert max-w-none prose-stone">
         <ContentRenderer :value="article" />
@@ -64,11 +82,20 @@
         </NuxtLink>
       </footer>
     </article>
+
+    <!-- Desktop sidebar TOC -->
+    <template #sidebar>
+      <nav v-if="tocLinks.length" class="sticky top-24">
+        <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
+        <BlogToc :links="tocLinks" :active-id="activeId" />
+      </nav>
+    </template>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { useTocActiveHeading } from '~/composables/useTocActiveHeading'
 
 definePageMeta({ layout: 'blog' })
 
@@ -104,6 +131,19 @@ useHead({
   ],
 })
 
+// TOC
+const tocLinks = computed(() => (article.value?.body?.toc?.links ?? []) as any[])
+const allHeadingIds = computed<string[]>(() => {
+  const ids: string[] = []
+  tocLinks.value.forEach((link: any) => {
+    ids.push(link.id)
+    link.children?.forEach((child: any) => ids.push(child.id))
+  })
+  return ids
+})
+const activeId = useTocActiveHeading(allHeadingIds)
+const mobileOpen = ref(false)
+
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString('zh-CN', {
     year: 'numeric',
@@ -112,3 +152,19 @@ function formatDate(date: string) {
   })
 }
 </script>
+
+<style scoped>
+.toc-mobile-enter-active,
+.toc-mobile-leave-active {
+  display: grid;
+  transition: grid-template-rows 0.3s ease;
+}
+.toc-mobile-enter-from,
+.toc-mobile-leave-to {
+  grid-template-rows: 0fr;
+}
+.toc-mobile-enter-to,
+.toc-mobile-leave-from {
+  grid-template-rows: 1fr;
+}
+</style>
