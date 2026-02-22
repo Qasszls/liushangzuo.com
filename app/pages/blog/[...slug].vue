@@ -87,6 +87,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onUnmounted } from 'vue'
+import type { TocLink, BlogCollectionItem } from '@nuxt/content'
 import { useTocActiveHeading } from '~/composables/useTocActiveHeading'
 
 definePageMeta({ layout: 'blog' })
@@ -110,7 +111,7 @@ const { data: relatedPosts } = await useAsyncData(`related-${slug}`, async () =>
     .order('date', 'DESC')
     .all()
   return posts
-    .filter((p: any) => p.path !== article.value!.path && p.tags?.includes(firstTag))
+    .filter((p: BlogCollectionItem) => p.path !== article.value!.path && p.tags?.includes(firstTag))
     .slice(0, 2)
 })
 
@@ -124,19 +125,19 @@ useHead({
 })
 
 // TOC — share with layout via useState
-const tocLinks = computed(() => (article.value?.body?.toc?.links ?? []) as any[])
+const tocLinks = computed(() => (article.value?.body?.toc?.links ?? []) as TocLink[])
 const allHeadingIds = computed<string[]>(() => {
   const ids: string[] = []
-  tocLinks.value.forEach((link: any) => {
+  tocLinks.value.forEach((link: TocLink) => {
     ids.push(link.id)
-    link.children?.forEach((child: any) => ids.push(child.id))
+    link.children?.forEach((child: TocLink) => ids.push(child.id))
   })
   return ids
 })
 const activeId = useTocActiveHeading(allHeadingIds)
 
 // Push TOC data to layout via shared state
-const layoutTocLinks = useState<any[]>('blogTocLinks', () => [])
+const layoutTocLinks = useState<TocLink[]>('blogTocLinks', () => [])
 const layoutTocActiveId = useState<string>('blogTocActiveId', () => '')
 
 watchEffect(() => {
