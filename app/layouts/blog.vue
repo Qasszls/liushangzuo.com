@@ -6,7 +6,10 @@
         <slot />
       </main>
       <aside class="hidden lg:block">
-        <slot name="sidebar" />
+        <nav v-if="tocLinks.length" class="sticky top-24">
+          <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
+          <BlogToc :links="tocLinks" :active-id="tocActiveId" />
+        </nav>
       </aside>
     </div>
     <AppFooter />
@@ -20,6 +23,9 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const isScrolled = ref(false)
 const isSettingsOpen = ref(false)
+
+const tocLinks = useState<any[]>('blogTocLinks', () => [])
+const tocActiveId = useState<string>('blogTocActiveId', () => '')
 
 onMounted(() => {
   const onScroll = () => { isScrolled.value = window.scrollY > 50 }
