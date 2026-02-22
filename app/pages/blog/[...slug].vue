@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <article v-if="article">
+  <NuxtLayout name="blog">
+    <div>
+      <article v-if="article">
       <!-- Header -->
       <header class="mb-10">
         <div class="flex items-center gap-3 text-sm text-stone-500 dark:text-stone-400 mb-4">
@@ -82,22 +83,23 @@
         </NuxtLink>
       </footer>
     </article>
+    </div>
 
-    <!-- Desktop sidebar TOC -->
-    <template #sidebar>
-      <nav v-if="tocLinks.length" class="sticky top-24">
-        <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
-        <BlogToc :links="tocLinks" :active-id="activeId" />
-      </nav>
-    </template>
-  </div>
+  <!-- Desktop sidebar TOC -->
+  <template #sidebar>
+    <nav v-if="tocLinks.length" class="sticky top-24">
+      <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
+      <BlogToc :links="tocLinks" :active-id="activeId" />
+    </nav>
+  </template>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useTocActiveHeading } from '~/composables/useTocActiveHeading'
 
-definePageMeta({ layout: 'blog' })
+definePageMeta({ layout: false })
 
 const route = useRoute()
 const slug = (route.params.slug as string[]).join('/')
