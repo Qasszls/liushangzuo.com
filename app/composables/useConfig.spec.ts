@@ -19,11 +19,12 @@ const mockUseRequestHeaders = vi.fn(() => ({
   'user-agent': 'Mozilla/5.0 (Linux; Android 13) Mobile Safari/537.36',
 }))
 
+// eslint-disable-next-line import/first
+import { useConfig } from '~/composables/useConfig'
+
 vi.stubGlobal('useAppConfig', mockUseAppConfig)
 vi.stubGlobal('useState', mockUseState)
 vi.stubGlobal('useRequestHeaders', mockUseRequestHeaders)
-
-import { useConfig } from '~/composables/useConfig'
 
 describe('useConfig', () => {
   beforeEach(() => {

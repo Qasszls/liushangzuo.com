@@ -13,7 +13,7 @@
     </div>
 
     <!-- 按年分组 -->
-    <div v-for="(group, index) in grouped" :key="group.year" class="mb-16">
+    <div v-for="group in grouped" :key="group.year" class="mb-16">
 
       <!-- 年份标题 -->
       <div class="flex items-baseline gap-6 mb-8">

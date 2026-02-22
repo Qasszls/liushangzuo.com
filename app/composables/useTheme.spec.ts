@@ -17,6 +17,9 @@ const htmlElement = {
   style: { setProperty: vi.fn() },
 }
 const headMock = { appendChild: vi.fn() }
+// eslint-disable-next-line import/first
+import { useTheme, ACCENT_COLORS, TITLE_FONTS } from './useTheme'
+
 Object.defineProperty(globalThis, 'document', {
   value: {
     documentElement: htmlElement,
@@ -26,8 +29,6 @@ Object.defineProperty(globalThis, 'document', {
   },
   writable: true,
 })
-
-import { useTheme, ACCENT_COLORS, TITLE_FONTS } from './useTheme'
 
 describe('useTheme', () => {
   beforeEach(() => {
