@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { SafeAny } from '~/types/safe-any'
 
 const mockUseAppConfig = vi.fn(() => ({
   site: {
@@ -10,7 +11,7 @@ const mockUseAppConfig = vi.fn(() => ({
   },
 }))
 
-const mockUseState = vi.fn((_key: string, init?: () => any) => {
+const mockUseState = vi.fn((_key: string, init?: () => SafeAny) => {
   const val = init ? init() : null
   return { value: val }
 })
@@ -19,11 +20,12 @@ const mockUseRequestHeaders = vi.fn(() => ({
   'user-agent': 'Mozilla/5.0 (Linux; Android 13) Mobile Safari/537.36',
 }))
 
+// eslint-disable-next-line import/first
+import { useConfig } from '~/composables/useConfig'
+
 vi.stubGlobal('useAppConfig', mockUseAppConfig)
 vi.stubGlobal('useState', mockUseState)
 vi.stubGlobal('useRequestHeaders', mockUseRequestHeaders)
-
-import { useConfig } from '~/composables/useConfig'
 
 describe('useConfig', () => {
   beforeEach(() => {
@@ -37,7 +39,7 @@ describe('useConfig', () => {
         socialLinks: [],
       },
     })
-    mockUseState.mockImplementation((_key: string, init?: () => any) => ({
+    mockUseState.mockImplementation((_key: string, init?: () => SafeAny) => ({
       value: init ? init() : null,
     }))
   })

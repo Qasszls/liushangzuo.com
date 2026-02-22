@@ -1,10 +1,5 @@
 <script setup lang="ts">
-interface TocLink {
-  id: string
-  text: string
-  depth: 2 | 3
-  children?: TocLink[]
-}
+import type { TocLink } from '@nuxt/content'
 
 defineProps<{
   links: TocLink[]

@@ -55,6 +55,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import type { BlogCollectionItem } from '@nuxt/content'
 
 const selectedTag = ref<string | null>(null)
 const page = ref(1)
@@ -69,14 +70,14 @@ const { data: allPosts } = await useAsyncData('blog-posts', () =>
 
 const allTags = computed(() => {
   const tags = new Set<string>()
-  allPosts.value?.forEach((post: any) => post.tags?.forEach((tag: string) => tags.add(tag)))
+  allPosts.value?.forEach((post: BlogCollectionItem) => post.tags?.forEach((tag: string) => tags.add(tag)))
   return Array.from(tags).sort()
 })
 
 const filteredPosts = computed(() => {
   let posts = allPosts.value || []
   if (selectedTag.value) {
-    posts = posts.filter((post: any) => post.tags?.includes(selectedTag.value!))
+    posts = posts.filter((post: BlogCollectionItem) => post.tags?.includes(selectedTag.value!))
   }
   return posts
 })
