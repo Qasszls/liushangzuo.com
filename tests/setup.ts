@@ -1,10 +1,11 @@
 // tests/setup.ts
 import { vi } from 'vitest'
+import type { SafeAny } from '~/types/safe-any'
 
 // Mock Nuxt auto-imports
 vi.mock('#imports', () => ({
-  ref: (val: any) => ({ value: val }),
-  computed: (fn: any) => ({ value: fn() }),
+  ref: (val: SafeAny) => ({ value: val }),
+  computed: (fn: SafeAny) => ({ value: fn() }),
   watch: vi.fn(),
   onMounted: vi.fn(),
   onUnmounted: vi.fn(),

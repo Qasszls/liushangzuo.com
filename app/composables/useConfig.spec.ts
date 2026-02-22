@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import type { SafeAny } from '~/types/safe-any'
 
 const mockUseAppConfig = vi.fn(() => ({
   site: {
@@ -10,7 +11,7 @@ const mockUseAppConfig = vi.fn(() => ({
   },
 }))
 
-const mockUseState = vi.fn((_key: string, init?: () => any) => {
+const mockUseState = vi.fn((_key: string, init?: () => SafeAny) => {
   const val = init ? init() : null
   return { value: val }
 })
@@ -38,7 +39,7 @@ describe('useConfig', () => {
         socialLinks: [],
       },
     })
-    mockUseState.mockImplementation((_key: string, init?: () => any) => ({
+    mockUseState.mockImplementation((_key: string, init?: () => SafeAny) => ({
       value: init ? init() : null,
     }))
   })
