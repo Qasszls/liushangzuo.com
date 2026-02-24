@@ -9,6 +9,7 @@
       aria-hidden="true"
     >
     <img
+      ref="mainImg"
       data-main
       :src="src"
       :alt="alt"
@@ -21,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, useTemplateRef } from 'vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -31,6 +32,13 @@ const props = defineProps<{
 }>()
 
 const loaded = ref(false)
+const mainImg = useTemplateRef<HTMLImageElement>('mainImg')
+
+onMounted(() => {
+  if (mainImg.value?.complete && mainImg.value.naturalWidth > 0) {
+    loaded.value = true
+  }
+})
 
 const blurSrc = computed(() => {
   const dotIndex = props.src.lastIndexOf('.')

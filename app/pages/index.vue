@@ -12,6 +12,7 @@
         />
         <!-- Full image — fades in on top of blur -->
         <img
+          ref="heroImg"
           :src="heroImage"
           alt=""
           class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
@@ -143,12 +144,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, useTemplateRef } from 'vue'
 
 // Hero background image — set to '' or null to hide the image (layout stays the same)
 const heroImage = '/images/blog/beijing-autumn-gugong-cover.jpg'
 const heroImageBlur = '/images/blog/beijing-autumn-gugong-cover-blur.jpg'
 const heroLoaded = ref(false)
+const heroImg = useTemplateRef<HTMLImageElement>('heroImg')
+
+onMounted(() => {
+  if (heroImg.value?.complete && heroImg.value.naturalWidth > 0) {
+    heroLoaded.value = true
+  }
+})
 
 const { data: latestPosts } = await useAsyncData('home-posts', () =>
   queryCollection('blog')
