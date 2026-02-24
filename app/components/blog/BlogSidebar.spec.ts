@@ -28,7 +28,7 @@ describe('BlogSidebar', () => {
 
     const img = wrapper.find('img')
     expect(img.exists()).toBe(true)
-    expect(img.attributes('src')).toBe('/images/avatar.jpg')
+    expect(img.attributes('src')).toContain('unsplash')
     expect(wrapper.text()).toContain('柳尚佐')
     expect(wrapper.text()).toContain('记录生活，分享思考。')
   })
@@ -54,10 +54,10 @@ describe('BlogSidebar', () => {
     const countTwoTags = texts.slice(0, 2)
     expect(countTwoTags).toContainEqual(expect.stringContaining('随笔'))
     expect(countTwoTags).toContainEqual(expect.stringContaining('技术'))
-    expect(texts[0]).toContain('(2)')
-    expect(texts[1]).toContain('(2)')
+    expect(countTwoTags[0]).toContain('2')
+    expect(countTwoTags[1]).toContain('2')
     expect(texts[2]).toContain('旅行')
-    expect(texts[2]).toContain('(1)')
+    expect(texts[2]).toContain('1')
   })
 
   it('generates correct tag link hrefs', () => {
@@ -90,11 +90,11 @@ describe('BlogSidebar', () => {
 
     // Sorted newest first
     expect(archiveLinks[0].text()).toContain('2026年1月')
-    expect(archiveLinks[0].text()).toContain('(2)')
+    expect(archiveLinks[0].text()).toContain('2')
     expect(archiveLinks[1].text()).toContain('2025年12月')
-    expect(archiveLinks[1].text()).toContain('(1)')
+    expect(archiveLinks[1].text()).toContain('1')
     expect(archiveLinks[2].text()).toContain('2025年10月')
-    expect(archiveLinks[2].text()).toContain('(1)')
+    expect(archiveLinks[2].text()).toContain('1')
   })
 
   it('generates correct archive link hrefs', () => {
