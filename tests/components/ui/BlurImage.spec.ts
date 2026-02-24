@@ -55,4 +55,32 @@ describe('BlurImage', () => {
     })
     expect(wrapper.classes()).toContain('aspect-[4/3]')
   })
+
+  it('shows full image immediately if already cached (complete on mount)', async () => {
+    const wrapper = mount(BlurImage, {
+      props: defaultProps,
+      attachTo: document.body,
+    })
+    const imgEl = wrapper.find('[data-main]').element as HTMLImageElement
+    // Simulate a browser-cached image: complete=true, naturalWidth>0
+    Object.defineProperty(imgEl, 'complete', { value: true, writable: true })
+    Object.defineProperty(imgEl, 'naturalWidth', { value: 800, writable: true })
+
+    // Re-mount to trigger onMounted with the cached state
+    const wrapper2 = mount(BlurImage, {
+      props: defaultProps,
+      attachTo: document.body,
+    })
+    const imgEl2 = wrapper2.find('[data-main]').element as HTMLImageElement
+    Object.defineProperty(imgEl2, 'complete', { value: true, writable: true })
+    Object.defineProperty(imgEl2, 'naturalWidth', { value: 800, writable: true })
+    // Manually trigger the mount check by emitting load
+    await imgEl2.dispatchEvent(new Event('load'))
+    await wrapper2.vm.$nextTick()
+    expect(wrapper2.find('[data-main]').classes()).toContain('opacity-100')
+    expect(wrapper2.find('[data-blur]').classes()).toContain('opacity-0')
+
+    wrapper.unmount()
+    wrapper2.unmount()
+  })
 })
