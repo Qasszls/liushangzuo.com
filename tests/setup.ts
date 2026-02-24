@@ -39,7 +39,7 @@ vi.stubGlobal('useAppConfig', vi.fn(() => ({
       { icon: 'ph:wechat-logo', label: '微信：Zlsqass006', wechat: 'Zlsqass006' },
     ],
     author: {
-      avatar: '/images/avatar.jpg',
+      avatar: 'https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=200&h=200&fit=crop&crop=face',
       bio: '记录生活，分享思考。',
     },
   },
