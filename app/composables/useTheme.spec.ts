@@ -1,5 +1,15 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
 
+// Capture onMounted callbacks so we can trigger them manually
+const mountedCallbacks: (() => void)[] = []
+vi.mock('vue', async (importOriginal) => {
+  const mod = await importOriginal<typeof import('vue')>()
+  return {
+    ...mod,
+    onMounted: (fn: () => void) => { mountedCallbacks.push(fn) },
+  }
+})
+
 // Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {}
@@ -30,10 +40,15 @@ Object.defineProperty(globalThis, 'document', {
   writable: true,
 })
 
+function flushMounted() {
+  while (mountedCallbacks.length) mountedCallbacks.shift()!()
+}
+
 describe('useTheme', () => {
   beforeEach(() => {
     localStorageMock.clear()
     htmlElement.dataset = {}
+    mountedCallbacks.length = 0
   })
 
   it('exports accent color options', () => {
@@ -73,10 +88,15 @@ describe('useTheme', () => {
     expect(htmlElement.dataset.font).toBe('lxgw-wenkai')
   })
 
-  it('restores saved preferences from localStorage', () => {
+  it('restores saved preferences from localStorage after mount', () => {
     localStorageMock.setItem('accent-color', 'lotus-pink')
     localStorageMock.setItem('title-font', 'system')
     const { accentColor, titleFont } = useTheme()
+    // Before mount: defaults (SSR-safe)
+    expect(accentColor.value).toBe('mist-blue')
+    expect(titleFont.value).toBe('noto-serif')
+    // After mount: restores from localStorage
+    flushMounted()
     expect(accentColor.value).toBe('lotus-pink')
     expect(titleFont.value).toBe('system')
   })

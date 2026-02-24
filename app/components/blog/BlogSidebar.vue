@@ -86,6 +86,10 @@ const props = defineProps<{
   posts: BlogCollectionItem[]
 }>()
 
+// Use useState so SSG payload transfers the build-time timestamp to the client,
+// ensuring identical heat-score sort order during hydration.
+const sidebarTimestamp = useState('sidebar-timestamp', () => Date.now())
+
 const tags = computed(() => {
   const map = new Map<string, { count: number; dates: string[] }>()
   props.posts.forEach((post) => {
@@ -97,7 +101,7 @@ const tags = computed(() => {
     })
   })
 
-  const now = Date.now()
+  const now = sidebarTimestamp.value
   const DECAY_DAYS = 180
   const RECENCY_WEIGHT = 0.7
 
