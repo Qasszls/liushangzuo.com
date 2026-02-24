@@ -51,7 +51,7 @@
           </div>
         </section>
 
-        <hr class="border-stone-200 dark:border-stone-700 mb-8" />
+        <hr class="border-stone-200 dark:border-stone-700 mb-8">
 
         <!-- Accent Color -->
         <section class="mb-8">
@@ -74,7 +74,7 @@
           </div>
         </section>
 
-        <hr class="border-stone-200 dark:border-stone-700 mb-8" />
+        <hr class="border-stone-200 dark:border-stone-700 mb-8">
 
         <!-- Title Font -->
         <section>

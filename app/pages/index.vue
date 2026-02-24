@@ -17,7 +17,7 @@
           class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
           :class="heroLoaded ? 'opacity-100' : 'opacity-0'"
           @load="heroLoaded = true"
-        />
+        >
       </template>
 
       <!-- Gradient overlay (always present — provides dark base when no image) -->
@@ -38,7 +38,7 @@
             class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 leading-[1.15]"
             style="font-family: var(--font-title)"
           >
-            记录生活，<br />分享思考
+            记录生活，<br>分享思考
           </h1>
           <p class="text-white/60 text-base md:text-lg max-w-md leading-relaxed mb-8">
             用文字沉淀思想，用镜头捕捉瞬间。

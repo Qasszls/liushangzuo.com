@@ -7,7 +7,7 @@
       class="absolute inset-0 w-full h-full object-cover blur-[20px] scale-110 transition-opacity duration-500"
       :class="loaded ? 'opacity-0' : 'opacity-100'"
       aria-hidden="true"
-    />
+    >
     <img
       data-main
       :src="src"
@@ -16,7 +16,7 @@
       :class="loaded ? 'opacity-100' : 'opacity-0'"
       loading="lazy"
       @load="loaded = true"
-    />
+    >
   </div>
 </template>
 

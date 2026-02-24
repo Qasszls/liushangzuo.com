@@ -20,11 +20,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import type { TocLink } from '@nuxt/content'
 
 const isScrolled = ref(false)
 const isSettingsOpen = ref(false)
 
-const tocLinks = useState<any[]>('blogTocLinks', () => [])
+const tocLinks = useState<TocLink[]>('blogTocLinks', () => [])
 const tocActiveId = useState<string>('blogTocActiveId', () => '')
 
 onMounted(() => {

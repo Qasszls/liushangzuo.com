@@ -13,7 +13,7 @@
     </div>
 
     <!-- 按年分组 -->
-    <div v-for="(group, index) in grouped" :key="group.year" class="mb-16">
+    <div v-for="group in grouped" :key="group.year" class="mb-16">
 
       <!-- 年份标题 -->
       <div class="flex items-baseline gap-6 mb-8">
@@ -82,12 +82,12 @@ interface YearGroup {
   items: ArchiveItem[]
 }
 
-const TYPE_LABELS: Record<string, string> = {
+const TYPE_LABELS = {
   blog: '随笔',
   works: '摄影',
   travel: '旅行',
   tech: '技术',
-}
+} as const satisfies Record<string, string>
 
 const [{ data: blogPosts }, { data: worksPosts }] = await Promise.all([
   useAsyncData('archive-blog', () =>

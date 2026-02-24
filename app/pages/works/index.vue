@@ -69,6 +69,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import type { WorksCollectionItem } from '@nuxt/content'
 
 const selectedCategory = ref('全部')
 const lightboxOpen = ref(false)
@@ -84,11 +85,11 @@ const { data: photos } = await useAsyncData('works', () =>
 
 const filteredPhotos = computed(() => {
   if (selectedCategory.value === '全部') return photos.value || []
-  return (photos.value || []).filter((p: any) => p.category === selectedCategory.value)
+  return (photos.value || []).filter((p: WorksCollectionItem) => p.category === selectedCategory.value)
 })
 
 const lightboxData = computed(() =>
-  filteredPhotos.value.map((p: any) => ({
+  filteredPhotos.value.map((p: WorksCollectionItem) => ({
     src: p.image,
     title: p.title,
     caption: [p.camera, p.lens, p.location].filter(Boolean).join(' · '),

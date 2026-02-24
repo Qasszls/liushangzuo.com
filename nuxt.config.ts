@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@nuxtjs/color-mode',
     '@pinia/nuxt',
+    '@nuxt/eslint',
     'nuxt-studio',
   ],
 
