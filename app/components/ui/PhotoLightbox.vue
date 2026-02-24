@@ -30,13 +30,51 @@ onMounted(() => {
   lightbox = new PhotoSwipeLightbox({
     dataSource: props.images.map(img => ({
       src: img.src,
-      w: img.width || 1200,
-      h: img.height || 800,
+      w: img.width || 0,
+      h: img.height || 0,
       alt: img.title || '',
     })),
     pswpModule: () => import('photoswipe'),
     showHideAnimationType: 'fade',
     bgOpacity: 0.95,
+  })
+
+  // Detect actual image dimensions when width/height are not provided,
+  // so portrait images display at their natural aspect ratio
+  lightbox.on('contentLoad', (e) => {
+    const { content } = e
+    if (!content.data.w || !content.data.h) {
+      e.preventDefault()
+
+      const img = document.createElement('img')
+      img.className = 'pswp__img'
+      content.element = img
+      content.state = 'loading'
+
+      img.onload = () => {
+        content.data.w = img.naturalWidth
+        content.data.h = img.naturalHeight
+        content.width = img.naturalWidth
+        content.height = img.naturalHeight
+
+        if (content.slide) {
+          content.slide.width = img.naturalWidth
+          content.slide.height = img.naturalHeight
+          content.slide.calculateSize()
+          content.slide.zoomAndPanToInitial()
+          content.slide.updateContentSize(true)
+          content.slide.applyCurrentZoomPan()
+        }
+
+        content.onLoaded()
+      }
+
+      img.onerror = () => {
+        content.onError()
+      }
+
+      img.src = content.data.src as string
+    }
   })
 
   lightbox.on('close', () => {
