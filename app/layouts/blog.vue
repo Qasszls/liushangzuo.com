@@ -6,10 +6,9 @@
         <slot />
       </main>
       <aside class="hidden lg:block">
-        <nav v-if="tocLinks.length" class="sticky top-24">
-          <h4 class="text-sm font-medium text-stone-500 dark:text-stone-400 mb-4">目录</h4>
-          <BlogToc :links="tocLinks" :active-id="tocActiveId" />
-        </nav>
+        <div class="sticky top-24">
+          <BlogSidebar :posts="sidebarPosts" />
+        </div>
       </aside>
     </div>
     <AppFooter />
@@ -20,13 +19,16 @@
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import type { TocLink } from '@nuxt/content'
 
 const isScrolled = ref(false)
 const isSettingsOpen = ref(false)
 
-const tocLinks = useState<TocLink[]>('blogTocLinks', () => [])
-const tocActiveId = useState<string>('blogTocActiveId', () => '')
+const { data: sidebarPosts } = await useAsyncData('sidebar-posts', () =>
+  queryCollection('blog')
+    .where('draft', '=', false)
+    .order('date', 'DESC')
+    .all()
+)
 
 onMounted(() => {
   const onScroll = () => { isScrolled.value = window.scrollY > 50 }

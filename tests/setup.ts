@@ -38,5 +38,9 @@ vi.stubGlobal('useAppConfig', vi.fn(() => ({
       { href: 'mailto:1561790480@qq.com', icon: 'ph:envelope', label: 'Email' },
       { icon: 'ph:wechat-logo', label: '微信：Zlsqass006', wechat: 'Zlsqass006' },
     ],
+    author: {
+      avatar: '/images/avatar.jpg',
+      bio: '记录生活，分享思考。',
+    },
   },
 })))

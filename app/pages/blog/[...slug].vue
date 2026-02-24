@@ -37,24 +37,6 @@
         />
       </div>
 
-      <!-- Mobile TOC -->
-      <div v-if="tocLinks.length" class="lg:hidden mb-8 border border-stone-200 dark:border-stone-800 rounded-lg overflow-hidden">
-        <button
-          class="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-stone-700 dark:text-stone-300 bg-stone-50 dark:bg-stone-900"
-          @click="mobileOpen = !mobileOpen"
-        >
-          <span>目录</span>
-          <Icon :name="mobileOpen ? 'ph:caret-up' : 'ph:caret-down'" class="w-4 h-4" />
-        </button>
-        <Transition name="toc-mobile">
-          <div v-show="mobileOpen" class="overflow-hidden" @click="mobileOpen = false">
-            <div class="px-4 py-3">
-              <BlogToc :links="tocLinks" :active-id="activeId" />
-            </div>
-          </div>
-        </Transition>
-      </div>
-
       <!-- Content -->
       <div class="prose prose-lg dark:prose-invert max-w-none prose-stone">
         <ContentRenderer :value="article" />
@@ -86,9 +68,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onUnmounted } from 'vue'
-import type { TocLink, BlogCollectionItem } from '@nuxt/content'
-import { useTocActiveHeading } from '~/composables/useTocActiveHeading'
+import type { BlogCollectionItem } from '@nuxt/content'
 
 definePageMeta({ layout: 'blog' })
 
@@ -124,34 +104,6 @@ useHead({
   ],
 })
 
-// TOC — share with layout via useState
-const tocLinks = computed(() => (article.value?.body?.toc?.links ?? []) as TocLink[])
-const allHeadingIds = computed<string[]>(() => {
-  const ids: string[] = []
-  tocLinks.value.forEach((link: TocLink) => {
-    ids.push(link.id)
-    link.children?.forEach((child: TocLink) => ids.push(child.id))
-  })
-  return ids
-})
-const activeId = useTocActiveHeading(allHeadingIds)
-
-// Push TOC data to layout via shared state
-const layoutTocLinks = useState<TocLink[]>('blogTocLinks', () => [])
-const layoutTocActiveId = useState<string>('blogTocActiveId', () => '')
-
-watchEffect(() => {
-  layoutTocLinks.value = tocLinks.value
-  layoutTocActiveId.value = activeId.value
-})
-
-onUnmounted(() => {
-  layoutTocLinks.value = []
-  layoutTocActiveId.value = ''
-})
-
-const mobileOpen = ref(false)
-
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString('zh-CN', {
     year: 'numeric',
@@ -160,19 +112,3 @@ function formatDate(date: string) {
   })
 }
 </script>
-
-<style scoped>
-.toc-mobile-enter-active,
-.toc-mobile-leave-active {
-  display: grid;
-  transition: grid-template-rows 0.3s ease;
-}
-.toc-mobile-enter-from,
-.toc-mobile-leave-to {
-  grid-template-rows: 0fr;
-}
-.toc-mobile-enter-to,
-.toc-mobile-leave-from {
-  grid-template-rows: 1fr;
-}
-</style>

@@ -10,6 +10,17 @@
       </p>
     </div>
 
+    <!-- Active Filters -->
+    <div v-if="selectedMonth" class="flex items-center gap-2 mb-6">
+      <span class="text-sm text-stone-500 dark:text-stone-400">筛选：{{ monthLabel }}</span>
+      <button
+        class="text-sm text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 transition"
+        @click="clearMonth"
+      >
+        <Icon name="ph:x" class="w-4 h-4" />
+      </button>
+    </div>
+
     <!-- Tag Filter -->
     <div v-if="allTags.length" class="flex flex-wrap gap-2 mb-10">
       <button
@@ -57,7 +68,11 @@
 import { ref, computed, watch } from 'vue'
 import type { BlogCollectionItem } from '@nuxt/content'
 
-const selectedTag = ref<string | null>(null)
+const route = useRoute()
+const router = useRouter()
+
+const selectedTag = ref<string | null>((route.query.tag as string) || null)
+const selectedMonth = ref<string | null>((route.query.month as string) || null)
 const page = ref(1)
 const pageSize = 9
 
@@ -74,10 +89,24 @@ const allTags = computed(() => {
   return Array.from(tags).sort()
 })
 
+const monthLabel = computed(() => {
+  if (!selectedMonth.value) return ''
+  const [year, month] = selectedMonth.value.split('-')
+  return `${year}年${Number(month)}月`
+})
+
 const filteredPosts = computed(() => {
   let posts = allPosts.value || []
   if (selectedTag.value) {
     posts = posts.filter((post: BlogCollectionItem) => post.tags?.includes(selectedTag.value!))
+  }
+  if (selectedMonth.value) {
+    posts = posts.filter((post: BlogCollectionItem) => {
+      if (!post.date) return false
+      const d = new Date(post.date)
+      const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+      return key === selectedMonth.value
+    })
   }
   return posts
 })
@@ -90,7 +119,19 @@ const hasMore = computed(() =>
   visiblePosts.value.length < filteredPosts.value.length
 )
 
+function clearMonth() {
+  selectedMonth.value = null
+  router.replace({ query: { ...route.query, month: undefined } })
+}
+
 watch(selectedTag, () => { page.value = 1 })
+watch(selectedMonth, () => { page.value = 1 })
+
+// Sync URL query params when navigating from sidebar
+watch(() => route.query, (query) => {
+  if (query.tag !== undefined) selectedTag.value = (query.tag as string) || null
+  if (query.month !== undefined) selectedMonth.value = (query.month as string) || null
+}, { immediate: false })
 
 useHead({ title: '生活随笔' })
 </script>
