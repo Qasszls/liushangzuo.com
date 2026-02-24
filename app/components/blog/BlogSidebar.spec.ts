@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import BlogSidebar from './BlogSidebar.vue'
 
@@ -58,6 +58,41 @@ describe('BlogSidebar', () => {
     expect(countTwoTags[1]).toContain('2')
     expect(texts[2]).toContain('旅行')
     expect(texts[2]).toContain('1')
+  })
+
+  it('sorts tags by count + recency heat score', () => {
+    // Fix "now" so decay calculations are deterministic
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2026-03-01'))
+
+    const posts = [
+      // "老话题" — 3 posts all older than 180 days → recency bonus = 0
+      createPost({ path: '/blog/a1', date: '2025-01-01', tags: ['老话题'] }),
+      createPost({ path: '/blog/a2', date: '2025-01-15', tags: ['老话题'] }),
+      createPost({ path: '/blog/a3', date: '2025-02-01', tags: ['老话题'] }),
+      // "近期热" — 2 very recent posts → recency bonus ≈ 2 × 0.5 = 1.0
+      createPost({ path: '/blog/b1', date: '2026-02-20', tags: ['近期热'] }),
+      createPost({ path: '/blog/b2', date: '2026-02-25', tags: ['近期热'] }),
+      // "新芽" — 1 recent post → recency bonus ≈ 0.5, not enough to beat count=3
+      createPost({ path: '/blog/c1', date: '2026-02-28', tags: ['新芽'] }),
+    ]
+
+    const wrapper = mount(BlogSidebar, {
+      props: { posts },
+      global: { stubs },
+    })
+
+    const tagLinks = wrapper.findAll('section:nth-of-type(2) a')
+    const texts = tagLinks.map((l) => l.text())
+
+    // 老话题: score = 3 + 0 = 3.0
+    // 近期热: score = 2 + ~1.35 = ~3.35 (recency boosts above 老话题)
+    // 新芽:   score = 1 + ~0.7 = ~1.7 (single post can't beat count=3)
+    expect(texts[0]).toContain('近期热')
+    expect(texts[1]).toContain('老话题')
+    expect(texts[2]).toContain('新芽')
+
+    vi.useRealTimers()
   })
 
   it('generates correct tag link hrefs', () => {
