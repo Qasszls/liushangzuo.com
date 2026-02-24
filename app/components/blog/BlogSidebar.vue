@@ -87,15 +87,29 @@ const props = defineProps<{
 }>()
 
 const tags = computed(() => {
-  const map = new Map<string, number>()
+  const map = new Map<string, { count: number; dates: string[] }>()
   props.posts.forEach((post) => {
     post.tags?.forEach((tag: string) => {
-      map.set(tag, (map.get(tag) || 0) + 1)
+      const entry = map.get(tag) || { count: 0, dates: [] }
+      entry.count++
+      if (post.date) entry.dates.push(String(post.date))
+      map.set(tag, entry)
     })
   })
+
+  const now = Date.now()
+  const DECAY_DAYS = 180
+  const RECENCY_WEIGHT = 0.7
+
   return Array.from(map.entries())
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))
+    .map(([name, { count, dates }]) => {
+      const recency = dates.reduce((sum, d) => {
+        const days = (now - new Date(d).getTime()) / 86_400_000
+        return sum + Math.max(0, 1 - days / DECAY_DAYS)
+      }, 0)
+      return { name, count, score: count + recency * RECENCY_WEIGHT }
+    })
+    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name))
 })
 
 const archives = computed(() => {
