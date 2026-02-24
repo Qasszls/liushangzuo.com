@@ -44,3 +44,6 @@ vi.stubGlobal('useAppConfig', vi.fn(() => ({
     },
   },
 })))
+
+// Stub useState for components using Nuxt's SSR-safe state
+vi.stubGlobal('useState', (_key: string, init: () => SafeAny) => ({ value: init() }))

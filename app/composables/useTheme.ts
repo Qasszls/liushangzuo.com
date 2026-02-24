@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 export interface AccentColor {
   id: string
@@ -47,8 +47,10 @@ function ensureLxgwFontsLoaded() {
 }
 
 export function useTheme() {
-  const accentColor = ref(loadSaved('accent-color', ACCENT_IDS, 'mist-blue'))
-  const titleFont = ref(loadSaved('title-font', FONT_IDS, 'noto-serif'))
+  // Initialize with fallback values to match SSR output.
+  // localStorage is read in onMounted to avoid server/client mismatch.
+  const accentColor = ref('mist-blue')
+  const titleFont = ref('noto-serif')
 
   function applyAccent(id: string) {
     if (typeof document !== 'undefined') {
@@ -87,8 +89,15 @@ export function useTheme() {
     applyFont(id)
   }
 
-  applyAccent(accentColor.value)
-  applyFont(titleFont.value)
+  // Restore user preferences from localStorage after hydration
+  onMounted(() => {
+    const savedAccent = loadSaved('accent-color', ACCENT_IDS, 'mist-blue')
+    const savedFont = loadSaved('title-font', FONT_IDS, 'noto-serif')
+    accentColor.value = savedAccent
+    titleFont.value = savedFont
+    applyAccent(savedAccent)
+    applyFont(savedFont)
+  })
 
   return {
     accentColor,
