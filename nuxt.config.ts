@@ -22,11 +22,6 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    define: {
-      // Temporarily enable detailed hydration mismatch warnings in production.
-      // Remove after diagnosing the issue.
-      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: true,
-    },
   },
 
   colorMode: {
